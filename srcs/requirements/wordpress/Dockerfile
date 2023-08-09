@@ -1,15 +1,23 @@
-FROM debian:bookworm
+FROM alpine:3.17
 
-RUN add-apt-repository ppa:tiagohillebrandt/wp-cli
+RUN apk add --no-cache curl php php-cgi php-fpm php-cli php-phar php-curl php-mysqli mariadb-client 
 
-RUN apt update && apt upgrade && apt install -y php-fpm wp-cli
+COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
-RUN wget -O /tmp && dpkg
+RUN mkdir -p /var/www/html/wordpress
+WORKDIR /var/www/html/wordpress
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+RUN wp core download --allow-root
 
-RUN wp core download \
-	&& wp core config --dbname=<database_name> --dbuser=<database_user> --dbpass=<database_password> \
-	&& wp core install --url=<site_url> --title=<site_title> --admin_user=<admin_username> --admin_password=<admin_password> --admin_email=<admin_email>
+#RUN mkdir -p /var/www/html && wget -q -O - "http://wordpress.org/latest.tar.gz" | tar -xzf - -C /var/www/html
 
-RUN mkdir /var/www && wget -q -O - "http://wordpress.org/latest.tar.gz" | tar -xzf - -C /var/www
+RUN wp config create --allow-root \
+      --dbname=$SQL_DB \
+      --dbuser=$SQL_USER \
+      --dbpass=$SQL_PASSWORD \
+      --dbhost=mariadb:3306 \
+      --path="/var/www/html/wordpress"
 
-ENTRYPOINT ["php-fpm", "-F"]
+ENTRYPOINT ["php-fpm81", "-F"]
