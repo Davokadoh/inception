@@ -18,6 +18,7 @@ RUN wp config create --allow-root \
       --dbuser=$SQL_USER \
       --dbpass=$SQL_PASSWORD \
       --dbhost=mariadb:3306 \
+	  --skip-check \
       --path="/var/www/html/wordpress"
 
 ENTRYPOINT ["php-fpm81", "-F"]

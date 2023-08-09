@@ -6,6 +6,7 @@ services:
     build: requirements/nginx
     depends_on:
       - wordpress
+      - mariadb
     volumes:
       - website:/var/www/html:delegate
     ports:
