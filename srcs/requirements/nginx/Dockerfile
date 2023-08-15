@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk add --no-cache openssl nginx
+RUN apk add --no-cache openssl nginx httpie
 
 COPY ./conf/nginx.conf /etc/nginx/
 

@@ -12,7 +12,7 @@ services:
     ports:
       - 443:443
     networks:
-      - network
+      - incNet
 
   wordpress:
     container_name: wordpress
@@ -22,7 +22,7 @@ services:
     volumes:
       - website:/var/www/html:delegate
     networks:
-      - network
+      - incNet
     expose:
       - 9000
     environment:
@@ -36,7 +36,7 @@ services:
     volumes:
       - database:/var/lib/mysql:delegate
     networks:
-      - network
+      - incNet
     expose:
       - 3306
     environment:
@@ -51,5 +51,5 @@ volumes:
     driver: local
 
 networks:
-  network:
+  incNet:
     driver: bridge

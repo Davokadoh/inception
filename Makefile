@@ -7,7 +7,8 @@ down:
 	docker compose -f srcs/docker-compose.yml down
 
 rm:
-	docker system prune --volumes -a -f
+	docker system prune -af
+	docker volume prune -af
 
 re: down up
 
