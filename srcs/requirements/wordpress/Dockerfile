@@ -1,23 +1,23 @@
 FROM alpine:3.17
 
-RUN apk add --no-cache curl php php-cgi php-fpm php-cli php-phar php-curl php-mysqli mariadb-client httpie
+RUN apk add --no-cache curl fcgi php php-cgi php-cli php-common php-curl php-fpm php-gd php-iconv php-mbstring php-mysqli php-openssl php-pdo php-pdo_mysql php-phar php-tokenizer php-zlib mariadb-client httpie
 
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
-RUN mkdir -p /var/www/html/wordpress
-RUN chmod 755 /var/www/html/wordpress
-WORKDIR /var/www/html/wordpress
+RUN mkdir -p /var/www/html
+RUN chmod 755 /var/www/html
+WORKDIR /var/www/html
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 RUN wp core download --allow-root
 
-RUN wp config create --allow-root \
-      --dbname=sql_db \
-      --dbuser=sql_user\
-      --dbpass=osddept \
-      --dbhost=mariadb:3306 \
-      --path="/var/www/html/wordpress" \
-      --skip-check
+RUN adduser -D -H -u 1000 -s /bin/bash www-data -G www-data
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod 755 /var/www/html
 
-ENTRYPOINT ["php-fpm81", "-F"]
+RUN mkdir /script
+COPY entrypoint.sh /script
+RUN chmod +x /script/entrypoint.sh
+
+ENTRYPOINT ["/script/entrypoint.sh"]

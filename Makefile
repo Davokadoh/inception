@@ -8,7 +8,7 @@ down:
 
 rm:
 	docker system prune -af
-	docker volume prune -af
+	docker volume prune -f
 
 re: down up
 
