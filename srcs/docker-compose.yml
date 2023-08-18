@@ -1,12 +1,12 @@
-version: "3.8"
+version: "3.9"
 
 services:
   nginx:
     container_name: nginx
+    hostname: nginx
     build: requirements/nginx
     depends_on:
       - wordpress
-      - mariadb
     volumes:
       - website:/var/www/html:delegate
     ports:
@@ -16,6 +16,7 @@ services:
 
   wordpress:
     container_name: wordpress
+    hostname: wordpress
     build: requirements/wordpress
     depends_on:
       - mariadb
@@ -25,14 +26,16 @@ services:
       - incNet
     expose:
       - 9000
-    environment:
-      - SQL_DB=$SQL_DB
-      - SQL_USER=$SQL_USER
-      - SQL_PASSWORD=$SQL_PASSWORD
 
   mariadb:
     container_name: mariadb
-    build: requirements/mariadb
+    hostname: mariadb
+    build:
+      context: requirements/mariadb
+      args:
+        - SQL_DB=${SQL_DB}
+        - SQL_USER=${SQL_USER}
+        - SQL_PASS=${SQL_PASS}
     volumes:
       - database:/var/lib/mysql:delegate
     networks:
@@ -40,9 +43,13 @@ services:
     expose:
       - 3306
     environment:
-      - SQL_DB=$SQL_DB
-      - SQL_USER=$SQL_USER
-      - SQL_PASSWORD=$SQL_PASSWORD
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
 
 volumes:
   website:

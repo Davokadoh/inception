@@ -4,10 +4,10 @@ sleep 4
 
 wp config create \
 	--path="/var/www/html" \
-	--dbname="sql_db" \
-	--dbuser="sql_user" \
-	--dbhost="mariadb.srcs_incNet:3306" \
-	--dbpass="osddept" \
+	--dbname="${SQL_DB}" \
+	--dbuser="${SQL_USER}" \
+	--dbhost="mariadb" \
+	--dbpass="${SQL_PASSWORD}" \
 	--allow-root
 
 wp core install \
@@ -19,4 +19,4 @@ wp core install \
 	--admin_email="lerouxjoachim@gmail.com" \
 	--allow-root
 
-php-fpm81 -F
+exec php-fpm81 -F

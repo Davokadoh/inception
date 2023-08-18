@@ -1,4 +1,4 @@
-include srcs/.env
+-include srcs/.env
 
 up:
 	docker compose -f srcs/docker-compose.yml up --detach --build
