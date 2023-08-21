@@ -11,7 +11,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - website:/var/www/html:delegate
+      - website:/var/www/html
     ports:
       - 443:443
 
@@ -26,7 +26,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - website:/var/www/html:delegate
+      - website:/var/www/html
     expose:
       - 9000
     env_file: .env
@@ -40,7 +40,7 @@ services:
         - SQL_USER=${SQL_USER}
         - SQL_PASS=${SQL_PASS}
     volumes:
-      - database:/var/lib/mysql:delegate
+      - database:/var/lib/mysql
     expose:
       - 3306
     healthcheck:
