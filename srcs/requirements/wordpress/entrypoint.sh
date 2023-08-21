@@ -4,7 +4,7 @@ wp config create \
 	--path="/var/www/html" \
 	--dbname="${SQL_DB}" \
 	--dbuser="${SQL_USER}" \
-	--dbhost="mariadb.srcs_incNet" \
+	--dbhost="mariadb.inception_default" \
 	--dbpass="${SQL_PASS}" \
 	--allow-root
 
