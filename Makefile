@@ -1,8 +1,8 @@
 -include srcs/.env
 
 up:
-	mkdir -p ~/$(shell whoami)/data/website
-	mkdir -p ~/$(shell whoami)/data/database
+	mkdir -p ~/${LOGIN}/data/website
+	mkdir -p ~/${LOGIN}/data/database
 	docker compose -f srcs/docker-compose.yml up --detach --build
 
 down:
