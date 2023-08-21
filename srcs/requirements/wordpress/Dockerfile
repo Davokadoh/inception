@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk add --no-cache curl fcgi php php-cgi php-cli php-common php-curl php-fpm php-gd php-iconv php-mbstring php-mysqli php-openssl php-pdo php-pdo_mysql php-phar php-tokenizer php-zlib mariadb-client httpie
+RUN apk add --no-cache curl fcgi php php-cgi php-cli php-common php-curl php-fpm php-gd php-iconv php-mbstring php-mysqli php-openssl php-pdo php-pdo_mysql php-phar php-tokenizer php-zlib mariadb-client
 
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 

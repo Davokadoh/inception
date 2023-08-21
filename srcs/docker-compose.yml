@@ -4,7 +4,10 @@ services:
   nginx:
     container_name: nginx
     hostname: nginx
-    build: requirements/nginx
+    build:
+      context: requirements/nginx
+      args:
+        - LOGIN=${LOGIN}
     depends_on:
       - wordpress
     volumes:
@@ -17,7 +20,12 @@ services:
   wordpress:
     container_name: wordpress
     hostname: wordpress
-    build: requirements/wordpress
+    build:
+      context: requirements/wordpress
+      args:
+        - SQL_DB=${SQL_DB}
+        - SQL_USER=${SQL_USER}
+        - SQL_PASS=${SQL_PASS}
     depends_on:
       - mariadb
     volumes:
@@ -26,6 +34,7 @@ services:
       - incNet
     expose:
       - 9000
+    env_file: .env
 
   mariadb:
     container_name: mariadb
@@ -42,14 +51,12 @@ services:
       - incNet
     expose:
       - 3306
-    environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
-    secrets:
-      - db_root_password
-      - db_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 2s
+      timeout: 30s
+      retries: 3
+      start_period: 10s
 
 volumes:
   website:

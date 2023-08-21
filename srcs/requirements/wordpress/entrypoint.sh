@@ -1,13 +1,11 @@
 #!/bin/sh
 
-sleep 4
-
 wp config create \
 	--path="/var/www/html" \
 	--dbname="${SQL_DB}" \
 	--dbuser="${SQL_USER}" \
-	--dbhost="mariadb" \
-	--dbpass="${SQL_PASSWORD}" \
+	--dbhost="mariadb.srcs_incNet" \
+	--dbpass="${SQL_PASS}" \
 	--allow-root
 
 wp core install \

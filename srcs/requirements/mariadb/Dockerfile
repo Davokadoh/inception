@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk add --no-cache mariadb
+RUN apk add --no-cache mariadb mariadb-client
 
 RUN mkdir data && mkdir -p /run/mysqld/ \
 && chown -R mysql:mysql /var/run/mysqld \
@@ -14,9 +14,9 @@ ARG SQL_DB
 ARG SQL_USER
 ARG SQL_PASS
 
-RUN sed -i "s/sql_db/${SQL_DB}/g" /data/init.sql
-RUN sed -i "s/sql_user/${SQL_USER}/g" /data/init.sql
-RUN sed -i "s/sql_pass/${SQL_PASS}/g" /data/init.sql
+RUN sed -i "s/db/${SQL_DB}/g" /data/init.sql
+RUN sed -i "s/user/${SQL_USER}/g" /data/init.sql
+RUN sed -i "s/pass/${SQL_PASS}/g" /data/init.sql
 
 RUN mariadb-install-db \
       --user=mysql \

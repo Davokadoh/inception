@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS 'sql_db'
-CREATE USER IF NOT EXISTS 'sql_user'@'wordpress.srcs_incNet' IDENTIFIED BY 'sql_pass';
-GRANT ALL PRIVILEGES ON sql_db.* TO 'sql_user'@'wordpress.srcs_incNet' IDENTIFIED BY 'sql_pass';
+CREATE DATABASE IF NOT EXISTS db;
+CREATE USER IF NOT EXISTS 'user'@'wordpress.srcs_incNet' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES ON db.* TO 'user'@'wordpress.srcs_incNet' IDENTIFIED BY 'pass';
 FLUSH PRIVILEGES;

@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-ARG LOGIN=jleroux
+#ARG LOGIN=jleroux
 
 RUN apk add --no-cache openssl nginx
 
