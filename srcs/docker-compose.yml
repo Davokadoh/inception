@@ -52,14 +52,12 @@ services:
 
 volumes:
   website:
-    driver: local
     name: website
     driver_opts:
       type: 'none'
       o: 'bind'
       device: '~/${LOGIN}/data/website'
   database:
-    driver: local
     name: database
     driver_opts:
       type: 'none'
