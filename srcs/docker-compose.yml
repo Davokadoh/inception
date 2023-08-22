@@ -1,0 +1,69 @@
+version: "3.9"
+name: inception
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: requirements/nginx
+      args:
+        - LOGIN=${LOGIN}
+    depends_on:
+      - wordpress
+    volumes:
+      - website:/var/www/html
+    ports:
+      - 443:443
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: requirements/wordpress
+      args:
+        - SQL_DB=${SQL_DB}
+        - SQL_USER=${SQL_USER}
+        - SQL_PASS=${SQL_PASS}
+    depends_on:
+      - mariadb
+    volumes:
+      - website:/var/www/html
+    expose:
+      - 9000
+    env_file: .env
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: requirements/mariadb
+      args:
+        - SQL_DB=${SQL_DB}
+        - SQL_USER=${SQL_USER}
+        - SQL_PASS=${SQL_PASS}
+    volumes:
+      - database:/var/lib/mysql
+    expose:
+      - 3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 2s
+      timeout: 30s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  website:
+    name: website
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/${LOGIN}/data/website'
+  database:
+    name: database
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/${LOGIN}/data/database'
+
+networks:
+  network:
+    driver: bridge
