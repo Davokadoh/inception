@@ -5,7 +5,7 @@ wp config create \
 	--dbname="${SQL_DB}" \
 	--dbuser="${SQL_USER}" \
 	--dbhost="${SQL_HOST}" \
-	--dbpass="${SQL_PASS}" \
+	--dbpass="${SQL_PWD}" \
 	--allow-root
 
 wp core install \
