@@ -22,7 +22,7 @@ services:
       args:
         - SQL_DB=${SQL_DB}
         - SQL_USER=${SQL_USER}
-        - SQL_PASS=${SQL_PASS}
+        - SQL_PWD=${SQL_PWD}
     depends_on:
       - mariadb
     volumes:
@@ -38,7 +38,7 @@ services:
       args:
         - SQL_DB=${SQL_DB}
         - SQL_USER=${SQL_USER}
-        - SQL_PASS=${SQL_PASS}
+        - SQL_PWD=${SQL_PWD}
     volumes:
       - database:/var/lib/mysql
     expose:
