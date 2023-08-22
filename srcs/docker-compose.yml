@@ -56,13 +56,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/${LOGIN}/data/website'
+      device: '/home/${LOGIN}/data/website'
   database:
     name: database
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/${LOGIN}/data/database'
+      device: '/home/${LOGIN}/data/database'
 
 networks:
   network:
