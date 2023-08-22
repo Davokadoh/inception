@@ -12,21 +12,20 @@ services:
       - wordpress
     volumes:
       - website:/var/www/html
+    networks:
+      - 42net
     ports:
       - 443:443
 
   wordpress:
     container_name: wordpress
-    build:
-      context: requirements/wordpress
-      args:
-        - SQL_DB=${SQL_DB}
-        - SQL_USER=${SQL_USER}
-        - SQL_PWD=${SQL_PWD}
+    build: requirements/wordpress
     depends_on:
       - mariadb
     volumes:
       - website:/var/www/html
+    networks:
+      - 42net
     expose:
       - 9000
     env_file: .env
@@ -41,6 +40,8 @@ services:
         - SQL_PWD=${SQL_PWD}
     volumes:
       - database:/var/lib/mysql
+    networks:
+      - 42net
     expose:
       - 3306
     healthcheck:
