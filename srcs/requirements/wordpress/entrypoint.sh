@@ -4,7 +4,7 @@ wp config create \
 	--path="/var/www/html" \
 	--dbname="${SQL_DB}" \
 	--dbuser="${SQL_USER}" \
-	--dbhost="mariadb.inception_default" \
+	--dbhost="${SQL_HOST}" \
 	--dbpass="${SQL_PASS}" \
 	--allow-root
 
@@ -18,10 +18,10 @@ wp core install \
 	--allow-root
 
 wp user create \
-	"${WP_DB_USER}" \
+	"${SQL_USER}" \
     "${WP_EMAIL_USER}" \
     --role="author" \
-    --user_pass="${WP_DB_PWD}" \
+    --user_pass="${SQL_PWD}" \
 	--allow-root
 
 exec php-fpm81 -F
