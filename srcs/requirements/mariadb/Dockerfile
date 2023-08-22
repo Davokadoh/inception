@@ -16,7 +16,7 @@ ARG SQL_PWD
 
 RUN sed -i "s/db/${SQL_DB}/g" /data/init.sql
 RUN sed -i "s/user/${SQL_USER}/g" /data/init.sql
-RUN sed -i "s/pass/${SQL_PASS}/g" /data/init.sql
+RUN sed -i "s/pass/${SQL_PWD}/g" /data/init.sql
 
 RUN mariadb-install-db \
       --user=mysql \
