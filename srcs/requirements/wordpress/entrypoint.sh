@@ -11,7 +11,7 @@ wp config create \
 wp core install \
 	--path="/var/www/html" \
 	--url="localhost" \
-	--title="Nounours" \
+	--title="jleroux's Wordpress" \
 	--admin_user="moreThanAModerator" \
 	--admin_password="moreThanAWordToPass" \
 	--admin_email="lerouxjoachim@gmail.com" \
