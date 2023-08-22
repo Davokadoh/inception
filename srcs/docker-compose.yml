@@ -66,5 +66,5 @@ volumes:
       device: '/home/${LOGIN}/data/database'
 
 networks:
-  network:
+  42net:
     driver: bridge
