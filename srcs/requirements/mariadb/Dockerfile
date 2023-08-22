@@ -12,7 +12,7 @@ COPY conf/init.sql /data/init.sql
 
 ARG SQL_DB
 ARG SQL_USER
-ARG SQL_PASS
+ARG SQL_PWD
 
 RUN sed -i "s/db/${SQL_DB}/g" /data/init.sql
 RUN sed -i "s/user/${SQL_USER}/g" /data/init.sql
