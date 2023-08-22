@@ -10,11 +10,18 @@ wp config create \
 
 wp core install \
 	--path="/var/www/html" \
-	--url="localhost" \
-	--title="jleroux's Wordpress" \
-	--admin_user="moreThanAModerator" \
-	--admin_password="moreThanAWordToPass" \
-	--admin_email="lerouxjoachim@gmail.com" \
+	--url="${WP_URL}" \
+	--title="${WP_TITLE}" \
+	--admin_user="${WP_ADMIN}" \
+	--admin_password="${WP_ADMIN_PWD}" \
+	--admin_email="${WP_EMAIL}" \
+	--allow-root
+
+wp user create \
+	"${WP_DB_USER}" \
+    "${WP_EMAIL_USER}" \
+    --role="author" \
+    --user_pass="${WP_DB_PWD}" \
 	--allow-root
 
 exec php-fpm81 -F
