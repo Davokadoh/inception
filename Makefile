@@ -1,21 +1,27 @@
 -include srcs/.env
 
 up:
-	@mkdir -p /home/${LOGIN}/data/website
-	@mkdir -p /home/${LOGIN}/data/database
-	@sudo docker compose -f srcs/docker-compose.yml up --detach
+	@mkdir -p ${HOME}/data/website
+	@mkdir -p ${HOME}/data/database
+	@docker compose -f srcs/docker-compose.yml up --detach
 	@#open http://${LOGIN}.42.ch
+	@#xinit /absolute/path/to/firefox
 
 down:
-	@sudo docker compose -f srcs/docker-compose.yml down -v --remove-orphans --rmi all
+	@docker compose -f srcs/docker-compose.yml down -v --remove-orphans
 
 rm:
-	@sudo docker system prune -af
-	@sudo docker volume prune -f
+	@docker compose -f srcs/docker-compose.yml down -v --remove-orphans --rmi all
+	@docker system prune -af
+	@docker volume prune -f
+	@rm -rf ${HOME}/data/website
+	@rm -rf ${HOME}/data/database
 
-re:
-	@mkdir -p /home/${LOGIN}/data/website
-	@mkdir -p /home/${LOGIN}/data/database
-	@sudo docker compose -f srcs/docker-compose.yml up --detach --build
+re: down
+	@rm -rf ${HOME}/data/website
+	@rm -rf ${HOME}/data/database
+	@mkdir -p ${HOME}/data/website
+	@mkdir -p ${HOME}/data/database
+	@docker compose -f srcs/docker-compose.yml up --detach --build
 
-rre: down rm up
+rre: rm up

@@ -1,27 +1,27 @@
 #!/bin/sh
 
 wp config create \
-	--path="/var/www/html" \
-	--dbname="${SQL_DB}" \
-	--dbuser="${SQL_USER}" \
-	--dbhost="${SQL_HOST}" \
-	--dbpass="${SQL_PWD}" \
-	--allow-root
+  --path="/var/www/html" \
+  --dbname="${SQL_DB}" \
+  --dbuser="${SQL_USER}" \
+  --dbpass="${SQL_PWD}" \
+  --dbhost="${SQL_HOST}" \
+  --allow-root
 
 wp core install \
-	--path="/var/www/html" \
-	--url="${WP_URL}" \
-	--title="${WP_TITLE}" \
-	--admin_user="${WP_ADMIN}" \
-	--admin_password="${WP_ADMIN_PWD}" \
-	--admin_email="${WP_EMAIL}" \
-	--allow-root
+  --path="/var/www/html" \
+  --url="https://${DOMAIN}" \
+  --title="${DOMAIN}" \
+  --admin_user="${WP_ADMIN_USER}" \
+  --admin_password="${WP_ADMIN_PWD}" \
+  --admin_email="${WP_ADMIN_EMAIL}" \
+  --skip-email \
+  --allow-root
 
 wp user create \
-	"${SQL_USER}" \
-    "${WP_EMAIL_USER}" \
-    --role="author" \
-    --user_pass="${SQL_PWD}" \
-	--allow-root
+  "$WP_USER" \
+  "$WP_USER_EMAIL" \
+  --role=editor \
+  --user_pass="$WP_USER_PWD"
 
 exec php-fpm81 -F

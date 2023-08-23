@@ -19,7 +19,8 @@ services:
 
   wordpress:
     container_name: wordpress
-    build: requirements/wordpress
+    build:
+      context: requirements/wordpress
     depends_on:
       - mariadb
     volumes:
@@ -29,6 +30,12 @@ services:
     expose:
       - 9000
     env_file: .env
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   mariadb:
     container_name: mariadb
@@ -36,21 +43,22 @@ services:
       context: requirements/mariadb
       args:
         - SQL_DB=${SQL_DB}
-        - SQL_USER=${SQL_USER}
         - SQL_PWD=${SQL_PWD}
+        - SQL_USER=${SQL_USER}
+        - SQL_ROOT_PWD=${SQL_ROOT_PWD}
     volumes:
       - database:/var/lib/mysql
     networks:
       - 42net
     expose:
       - 3306
+    env_file: .env
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 2s
-      timeout: 30s
+      timeout: 10s
       retries: 3
       start_period: 10s
-    env_file: .env
 
 volumes:
   website:
@@ -58,14 +66,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/${LOGIN}/data/website'
+      device: '${HOME}/data/website'
   database:
     name: database
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/${LOGIN}/data/database'
+      device: '${HOME}/data/database'
 
 networks:
   42net:
-    driver: bridge

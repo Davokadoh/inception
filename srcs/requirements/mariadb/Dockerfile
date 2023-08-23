@@ -11,12 +11,14 @@ COPY conf/my.cnf /etc/mysql/my.cnf
 COPY conf/init.sql /data/init.sql
 
 ARG SQL_DB
-ARG SQL_USER
 ARG SQL_PWD
+ARG SQL_USER
+ARG SQL_ROOT_PWD
 
 RUN sed -i "s/db/${SQL_DB}/g" /data/init.sql
+RUN sed -i "s/pwd/${SQL_PWD}/g" /data/init.sql
 RUN sed -i "s/user/${SQL_USER}/g" /data/init.sql
-RUN sed -i "s/pass/${SQL_PWD}/g" /data/init.sql
+RUN sed -i "s/root_pwd/${SQL_ROOT_PWD}/g" /data/init.sql
 
 RUN mariadb-install-db \
       --user=mysql \
