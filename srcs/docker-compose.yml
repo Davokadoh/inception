@@ -30,12 +30,6 @@ services:
     expose:
       - 9000
     env_file: .env
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "localhost"]
-      interval: 5s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
 
   mariadb:
     container_name: mariadb
